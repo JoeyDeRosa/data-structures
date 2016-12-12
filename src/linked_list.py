@@ -3,7 +3,9 @@
 
 class LinkedList(object):
     """A singly-linked list."""
+
     def __init__(self, data=None):
+        """Create an instance of type LinkedList. Allow data to be passed in."""
         if data is not None:
             try:
                 for item in data:
@@ -19,7 +21,27 @@ class LinkedList(object):
 
 
     def push(self, val):
-        self.head = val
+        self.head = Node(val, self.head)
+
+
+    def pop(self):
+        val = self.head.data
+        if self.head.next == None:
+            self.tail = None
+        self.head = self.head.next
+        return val
+
+    def size():
+        a = self.head
+        count = 1
+        while self.tail is not a:
+            a = a.next
+            count +=1
+        return count
+
+
+    def search(val):
+
 
 
 class Node(object):
