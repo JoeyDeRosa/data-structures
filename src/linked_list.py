@@ -6,6 +6,8 @@ class LinkedList(object):
 
     def __init__(self, data=None):
         """Create an instance of type LinkedList. Allow data to be passed in."""
+        self.head = None
+        self.tail = None
         if data is not None:
             try:
                 for item in data:
@@ -31,17 +33,53 @@ class LinkedList(object):
         self.head = self.head.next
         return val
 
-    def size():
+    def size(self):
         a = self.head
-        count = 1
+        count = 0
+        if self.head:
+            count = 1
         while self.tail is not a:
-            a = a.next
             count +=1
+            a = a.next
         return count
 
 
-    def search(val):
+    def search(self, val):
+        node = self.head
+        while True:
+            if node.data == val:
+                return node
+            elif node == self.tail:
+                return None
+            node = node.next
 
+
+    def remove(self, node):
+        if node is self.head:
+            self.head = node.next
+        else:
+            a = self.head
+            while a.next is not node:
+                a = a.next
+            if node is self.tail:
+                self.tail = a
+                a.next = None
+            else:
+                a.next = node.next
+
+
+    def display(self):
+        if self.head is None:
+            return '()'
+        elif self.head is self.tail:
+            return '(' + str(self.head.data) + ')'
+        dis = '(' + str(self.head.data)
+        a = self.head
+        while a.next is not self.tail:
+            dis += ', ' + str(a.next.data)
+            a = a.next
+
+        return dis + ', ' + str(self.tail.data) + ')'
 
 
 class Node(object):
