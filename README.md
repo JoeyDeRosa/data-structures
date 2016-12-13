@@ -18,6 +18,12 @@ methods:
 - display(self)
     returns a string displaying the contents of the list in the format of a tuple.
 
-Stack:
+Stack (composed from linked list):
+A data structure with basic first-in: first-out functionality
+methods:
+- push(self, val)
+    adds a node containing val to the top of the stack
+- pop(self)
+    removes and returns the value at the top of the stack
 
 Developed by Avery Pratt, Patrick Saunders, and Joey Derosa
