@@ -2,48 +2,56 @@
 
 
 def test_constructor():
+    """Test that LinkedList constructor creates a linked list."""
     from linked_list import LinkedList
     linked_list = LinkedList()
     assert type(linked_list) == LinkedList
 
 
 def test_with_iterable1():
+    """Test that linked list has the correct head."""
     from linked_list import LinkedList
     linked_list = LinkedList([1, 2, 3])
     assert linked_list.head.data is 3
 
 
 def test_with_iterable2():
+    """Test that linked list nodes point to the proper nodes."""
     from linked_list import LinkedList
     linked_list = LinkedList([1, 2, 3])
-    assert linked_list.head.next.data is 2 
-    
-    
+    assert linked_list.head.next.data is 2
+
+
 def test_with_iterable3():
+    """Test that linked list nodes create a chain."""
     from linked_list import LinkedList
     linked_list = LinkedList([1, 2, 3])
     assert linked_list.head.next.next.data is 1
 
 
 def test_with_non_iterable1():
+    """Test that linked list with non-iterable data works."""
     from linked_list import LinkedList
     linked_list = LinkedList(42)
     assert linked_list.head.data is 42
 
 
 def test_with_non_iterable2():
+    """Test that linked list with non-iterable data doesn't point to anything.'"""
     from linked_list import LinkedList
     linked_list = LinkedList(42)
     assert linked_list.head.next is None
 
 
 def test_with_non_iterable3():
+    """Test that linked list creates a tail."""
     from linked_list import LinkedList
     linked_list = LinkedList(42)
     assert linked_list.tail.data is 42
 
 
 def test_push():
+    """Test that linked_list.push adds a node at the head."""
     from linked_list import LinkedList
     linked_list = LinkedList()
     linked_list.push(5)
@@ -53,14 +61,14 @@ def test_push():
 def test_pop():
     """Test that pop returns the correct value."""
     from linked_list import LinkedList
-    linked_list = LinkedList([1,2,3,4])
+    linked_list = LinkedList([1, 2, 3, 4])
     assert linked_list.pop() is 4
 
 
 def test_pop2():
     """Test that pop properly resets next."""
     from linked_list import LinkedList
-    linked_list = LinkedList([1,2,3,4])
+    linked_list = LinkedList([1, 2, 3, 4])
     linked_list.pop()
     assert linked_list.head.data is 3
 
