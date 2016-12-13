@@ -28,5 +28,11 @@ def test_with_iterable3(st):
     assert st.head.next.next.data is 1
 
 
-# def test_push_iterable(st):
-#     st.push([1, 2, 3])
+def test_push_iterable1(st):
+    st.push(4)
+    assert st.head.data is 4
+
+
+def test_push_iterable2(st):
+    st.push(4)
+    assert st.head.next.data is 3

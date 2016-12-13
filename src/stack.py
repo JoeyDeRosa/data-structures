@@ -7,6 +7,7 @@ import linked_list as ll
 class Stack(object):
     """A single stack."""
     def __init__(self, value=None):
+        self._linked_list = ll.LinkedList
         if value is not None:
             try:
                 for data in value:
@@ -22,8 +23,7 @@ class Stack(object):
 
 
     def push(self, value):
-        pass
-
+        return self._linked_list.push(self, value)
 
     def pop(self):
         pass
