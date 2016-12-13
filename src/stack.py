@@ -6,24 +6,15 @@ import linked_list as ll
 
 class Stack(object):
     """A single stack."""
-    def __init__(self, value=None):
-        self._linked_list = ll.LinkedList
-        if value is not None:
-            try:
-                for data in value:
-                    if data is value[0]:
-                        self.head = ll.Node(data, next=None)
-                        self.tail = self.head
-                    else:
-                        self.head = ll.Node(data, self.head)
-            except TypeError:
-                node = ll.Node(value, next=None)
-                self.head = node
-                self.tail = self.head
 
+    def __init__(self, value=None):
+        """Init the new instance of Stack."""
+        self._linked_list = ll.LinkedList(value)
 
     def push(self, value):
-        return self._linked_list.push(self, value)
+        """Add a new node to the top of the stack."""
+        return self._linked_list.push(value)
 
     def pop(self):
-        pass
+        """Remove the top node from the stack."""
+        return self._linked_list.pop()
