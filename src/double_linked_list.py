@@ -25,7 +25,19 @@ class DoubleLinkedList(object):
 
 
     def push(self, val):
-        self.head = Node(val, self.head)
+        """Push a val to the end of the list."""
+        node = Node(val, self.head, None)
+        if self.head is not None:
+            self.head.prev = node
+        self.head = node
+
+
+    def append(self, val):
+        """Append a val to the  start of the list."""
+        node = Node(val, None, self.tail)
+        if self.tail is not None:
+            self.tail.next = node
+        self.tail = node
 
 
     def pop(self):
@@ -41,7 +53,7 @@ class DoubleLinkedList(object):
         if self.head:
             count = 1
         while self.tail is not a:
-            count +=1
+            count += 1
             a = a.next
         return count
 
