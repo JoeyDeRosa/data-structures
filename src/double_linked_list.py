@@ -53,7 +53,7 @@ class DoubleLinkedList(object):
         if self.head:
             count = 1
         while self.tail is not a:
-            count +=1
+            count += 1
             a = a.next
         return count
 

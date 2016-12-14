@@ -64,7 +64,7 @@ def test_push_full(dll):
 
 
 def test_push_full_next(dll):
-    """Test that pushing into a list with values gives the proper next value."""
+    """Test that pushing into a filled list shows the right next value."""
     dll.push(6)
     assert dll.head.next.data is 3
 
@@ -81,12 +81,10 @@ def test_append_value(dll):
     assert dll.tail.data is 6
 
 
-
 def test_append_next(dll):
     """Test that appending to a list with values has the right next value."""
     dll.append(6)
     assert dll.tail.next is None
-
 
 
 def test_append_prev(dll):
