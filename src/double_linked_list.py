@@ -41,62 +41,63 @@ class DoubleLinkedList(object):
 
 
     def pop(self):
-        val = self.head.data
-        if self.head.next == None:
-            self.tail = None
-        self.head = self.head.next
-        return val
+        try:
+            val = self.head.data
+            if self.head.next == None:
+                self.tail = None
+            self.head = self.head.next
+            self.head.prev = None
+            return val
+        except AttributeError:
+            raise AttributeError("Cannot pop from an empty list.")
+    
 
-    def size(self):
-        a = self.head
-        count = 0
-        if self.head:
-            count = 1
-        while self.tail is not a:
-            count += 1
-            a = a.next
-        return count
+    def shift(self):
+        try:
+            val = self.tail.data
+            if self.tail.prev == None:
+                self.head = None
+            self.tail = self.tail.prev
+            self.tail.prev = None
+            return val
+        except AttributeError:
+            raise AttributeError("Cannot shift from an empty list.")
 
 
     def search(self, val):
         node = self.head
         while True:
-            if node.data == val:
-                return node
-            elif node == self.tail:
-                return None
-            node = node.next
+            try:
+                if node.data == val:
+                    return node
+                elif node == self.tail:
+                    return None
+                node = node.next
+            except AttributeError:
+                raise AttributeError("Cannot search an empty list.")
 
 
-    def remove(self, node):
-        if node is self.head:
-            self.head = node.next
-        else:
-            a = self.head
-            while a.next is not node:
-                a = a.next
-            if node is self.tail:
-                self.tail = a
-                a.next = None
-            else:
-                a.next = node.next
-
-
-    def display(self):
-        if self.head is None:
-            return '()'
-        elif self.head is self.tail:
-            return '(' + str(self.head.data) + ')'
-        dis = '(' + str(self.head.data)
+    def remove(self, val):
+        """Searches each node starting from the head and removes the first node found containing the specified value."""
+        node = self.search(val)
+        if node == None:
+            raise ValueError("Value not found: no nodes removed.")
         a = self.head
-        while a.next is not self.tail:
-            dis += ', ' + str(a.next.data)
+        while a is not node:
             a = a.next
-
-        return dis + ', ' + str(self.tail.data) + ')'
+        if a is self.tail:
+            a.prev.next = None
+            self.tail = a.prev
+        elif a is self.head:
+            a.next.prev = None
+            self.head = a.next
+        else:
+            a.prev.next = a.next
+            a.next.prev = a.prev
 
 
 class Node(object):
+    """Contains data to be organized into a doubly-linked list."""
     def __init__(self, data, next, prev):
         self.data = data
         self.next = next
