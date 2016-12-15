@@ -23,17 +23,17 @@ class Queue(object):
                 self.head = node
                 self.tail = self.head
 
-
-    def append(self, val):
-        """Append a val to the  start of the list."""
+    def enqueue(self, val):
+        """Append a val to the end of the queue."""
         node = Node(val, None, self.tail)
         if self.tail is not None:
+            old_tail = self.tail
             self.tail.next = node
         self.tail = node
+        self.tail.prev = old_tail
 
-
-    def pop(self):
-        """Removes and returns the last item in the queue."""
+    def dequeue(self):
+        """Remove and returns the first item in the queue."""
         try:
             val = self.head.data
             if self.head.next is None:
@@ -44,9 +44,8 @@ class Queue(object):
         except AttributeError:
             raise AttributeError("Cannot pop from an empty list.")
 
-
     def size(self):
-        """Counts the number of items in the queue"""
+        """Count the number of items in the queue."""
         cur = self.head
         count = 0
         if self.head:
@@ -58,7 +57,8 @@ class Queue(object):
 
 
 class Node(object):
-    """Contains data to be organized into a doubly-linked list."""
+    """Contain data to be organized into a doubly-linked list."""
+
     def __init__(self, data, next, prev):
         self.data = data
         self.next = next

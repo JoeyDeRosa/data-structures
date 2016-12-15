@@ -46,4 +46,4 @@ Use-cases:
     as a way to store and retrieve data. In that use-case the abiliry to navigate up and down the list in order to find data would be necessary. A single-linked list would be more appropriate than a double-linked list if the user was intnded to only have one chance to access the node and then move on. A use-case like this would probably be simmilar to an online test where the user couldn't change answers once they had been submited.
 
 
-Developed by Avery Pratt, Patrick Saunders, and Joey Derosa
+Developed by Avery Pratt, Patrick Saunders, and Joey DeRosa
