@@ -4,30 +4,18 @@
 class Queue(object):
     """A singly-linked list."""
 
-    def __init__(self, data=None):
+    def __init__(self):
         """Create an instance of type Queue. Allow data to be passed in."""
         self.head = None
         self.tail = None
-        if data is not None:
-            try:
-                for item in data:
-                    if item is data[0]:
-                        self.head = Node(item, next=None, prev=None)
-                        self.tail = self.head
-                    else:
-                        node = Node(item, self.head, prev=None)
-                        self.head.prev = node
-                        self.head = node
-            except TypeError:
-                node = Node(data, next=None, prev=None)
-                self.head = node
-                self.tail = self.head
 
     def enqueue(self, val):
         """Append a val to the end of the queue."""
         node = Node(val, None, self.tail)
+        if self.size() == 0:
+            self.head = node
+        old_tail = self.tail
         if self.tail is not None:
-            old_tail = self.tail
             self.tail.next = node
         self.tail = node
         self.tail.prev = old_tail
@@ -54,6 +42,10 @@ class Queue(object):
             count += 1
             cur = cur.next
         return count
+
+    def peek(self):
+        """Return the data attribute of Head."""
+        return self.head.data
 
 
 class Node(object):
