@@ -45,20 +45,22 @@ class DoubleLinkedList(object):
             val = self.head.data
             if self.head.next == None:
                 self.tail = None
+                return val
             self.head = self.head.next
             self.head.prev = None
             return val
         except AttributeError:
             raise AttributeError("Cannot pop from an empty list.")
-    
+
 
     def shift(self):
         try:
             val = self.tail.data
             if self.tail.prev == None:
                 self.head = None
+                return val
             self.tail = self.tail.prev
-            self.tail.prev = None
+            self.tail.next = None
             return val
         except AttributeError:
             raise AttributeError("Cannot shift from an empty list.")
