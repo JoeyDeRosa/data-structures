@@ -77,11 +77,16 @@ def test_size():
     linked_list = LinkedList()
     assert linked_list.size is 0
 
-def test_size():
+def test_size2():
     """Test that the size of a linked list with values is correct."""
     from linked_list import linked_list.size
     linked_list = LinkedList([1,2,3,4])
     assert linked_list.size is 4
 
+def test_search():
+    """Test that search returns a node with the given value."""
+    from linked_list import linked_list.search
+    linked_list = LinkedList([1,2,3,4])
+    assert linked_list.search(2) is linked_list.head.next.next 
 
 def test_push_method():
