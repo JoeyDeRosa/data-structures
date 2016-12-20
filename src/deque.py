@@ -2,7 +2,7 @@
 import double_linked_list
 
 
-class Deque():
+class Deque(object):
     """A two ended queue."""
 
     def __init__(self):
