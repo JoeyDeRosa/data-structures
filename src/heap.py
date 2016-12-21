@@ -3,20 +3,21 @@
 
 class Heap(object):
     """A heap."""
-
-    def __init__(self, nums):
+    def __init__(self, nums=None):
         """Create the heap."""
-        nums = self._organize_list(nums)
         self.heap = []
-        for i in nums:
-            self.heap.append(Node(i))
-        for i in range(len(self.heap) - 2):
-            self.heap[i].left = self.heap[i * 2]
-            self.heap[i].right = self.heap[i * 2 + 1]
+        if nums is None:
+            return nums
+        try:
+            for i in nums:
+                self.push(i)
+        except AttributeError:
+            print('Requires iterable.')
 
     def push(self, val):
         """Add a node containing val to the heap."""
-        pass
+        self.heap.append(val)
+        self.heap = self._organize_list(self.heap)
 
     def pop(self):
         """Remove the head node from the heap and reorganize the heap."""
@@ -28,15 +29,16 @@ class Heap(object):
         """Order a list in min heap format."""
         for i in range(len(lst)):
             try:
-                if lst[i].val > lst[i * 2].val:
-                    lst[i], lst[i * 2] = lst[i], lst[i * 2]
-                elif lst[i].val > lst[i * 2 + 1].val:
-                    lst[i], lst[i * 2 + 1] = lst[i], lst[i * 2 + 1]
+                if lst[i].val > lst[i * 2 + 1].val:
+                    lst[i], lst[i * 2 + 1] = lst[i * 2 + 1], lst[i]
+                elif lst[i].val > lst[i * 2 + 2].val:
+                    lst[i], lst[i * 2 + 2] = lst[i * 2 + 2], lst[i]
             except IndexError:
-                break
+                continue
         for i in range(len(lst)):
-            
-        return self.renode(lst)
+            if lst[len(lst) - i].val < lst[(len(lst) - i) / 2].val:
+                lst[len(lst) - i], lst[(len(lst) - i) / 2 - 1] = lst[(len(lst) - i) / 2 - 1], lst[len(lst) - i]
+        return self._renode(lst)
 
     def _renode(self, lst):
         """Reassign the left and right values for nodes."""
@@ -44,7 +46,7 @@ class Heap(object):
             try:
                 lst[i].left, lst[i].right = lst[i * 2], lst[i * 2 + 1]
             except IndexError:
-                break
+                continue
 
 
 class Node(object):
