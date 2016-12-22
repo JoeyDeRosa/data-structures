@@ -20,11 +20,14 @@ class PriorityQueue(object):
 
     def pop(self):
         """Remove the highest prioritized item."""
-        pri = 0
-        for i in range(len(self._q)):
-            if self._q[pri][1] < self._q[i][1]:
-                pri = i
-        self._q.pop(i)
+        try:
+            pri = 0
+            for i in range(len(self._q)):
+                if self._q[pri][1] < self._q[i][1]:
+                    pri = i
+            return self._q.pop(pri)
+        except IndexError:
+            raise IndexError('Can not pop from empty list.')
 
     def peek(self):
         """View the value of the highest prioritized item without removing it."""
