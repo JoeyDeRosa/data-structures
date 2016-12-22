@@ -19,14 +19,18 @@ class Heap(object):
 
     def push(self, val):
         """Add a node containing val to the heap."""
-        self.heap.append(val)
-        self.heap = self._organize_list(self.heap)
+        added = self.heap + [val]
+        self.heap = self._organize_list(added)
 
     def pop(self):
         """Remove the head node from the heap and reorganize the heap."""
-        self.heap[0], self.heap[-1] = self.heap[-1], self.heap[0]
-        self.heap.pop()
-        self.heap = self._organize_list(self.heap)
+        try:
+            self.heap[0], self.heap[-1] = self.heap[-1], self.heap[0]
+            ret = self.heap.pop()
+            self.heap = self._organize_list(self.heap)
+        except IndexError:
+            raise IndexError('Can not pop from empty list')
+        return ret
 
     def _organize_list(self, lst):
         """Order a list in min heap format."""
@@ -38,12 +42,12 @@ class Heap(object):
                     lst[i], lst[i * 2 + 2] = lst[i * 2 + 2], lst[i]
             except IndexError:
                 continue
-        print(self.heap)
         for i in range(len(lst)):
+            print(lst)
             try:
                 print('index ', len(lst) - i)
                 if (len(lst) - i) % 2 is 0:
-                    print('if ', lst[(len(lst) - i)], ' compared to ', lst[((len(lst) - i) // 2) - 1])
+                    print('if ', lst[(len(lst) - i)], ' compared to index ', int((len(lst) - i) / 2) - 1, lst[int((len(lst) - i) / 2) - 1])
                     if lst[len(lst) - i] < lst[((len(lst) - i) // 2) - 1]:
                         print(lst[(len(lst) - i)], ' switches with ', lst[((len(lst) - i) // 2) - 1])
                         lst[len(lst) - i], lst[(len(lst) - i) // 2 - 1] = lst[(len(lst) - i) // 2 - 1], lst[len(lst) - i]
@@ -54,4 +58,5 @@ class Heap(object):
                         lst[len(lst) - i], lst[(len(lst) - i) // 2] = lst[(len(lst) - i) // 2], lst[len(lst) - i]
             except IndexError:
                 continue
+        print('end of function ', lst)
         return lst
