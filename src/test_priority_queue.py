@@ -45,4 +45,9 @@ def test_pop(pri_q_empty, input, pri, answer):
     assert pri_q_empty.pop() == answer
 
 
-
+@pytest.mark.parametrize('input, pri, answer', INIT)
+def test_peek(pri_q_empty, input, pri, answer):
+    pri_q_empty.insert(3, 4)
+    pri_q_empty.insert(input, pri)
+    pri_q_empty.insert(45, 5)
+    assert pri_q_empty.peek() == answer
