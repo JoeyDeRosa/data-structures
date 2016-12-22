@@ -31,4 +31,11 @@ class PriorityQueue(object):
 
     def peek(self):
         """View the value of the highest prioritized item without removing it."""
-        pass
+        try:
+            pri = 0
+            for i in range(len(self._q)):
+                if self._q[pri][1] < self._q[i][1]:
+                    pri = i
+            return self._q[pri]
+        except IndexError:
+            raise IndexError('Can not peek empty list.')
