@@ -4,6 +4,32 @@
 import pytest
 
 
+TEST = [
+    [1, [1, 2, 3, 4, 5, 6, 7]],
+    [2, [2, 5, 6, 3, 7, 1, 4]],
+    [3, [3, 7, 1, 2, 4, 5, 6]],
+    [7, [7, 1, 2, 3, 4, 5, 6]]
+]
+
+
+@pytest.fixture
+def g_trav():
+    """A more complex graph."""
+    from graph import Graph
+    g = Graph()
+    for i in range(7):
+        g.add_node(i + 1)
+    g.add_edge(1, 2)
+    g.add_edge(1, 3)
+    g.add_edge(1, 4)
+    g.add_edge(2, 5)
+    g.add_edge(2, 6)
+    g.add_edge(6, 3)
+    g.add_edge(3, 7)
+    g.add_edge(7, 1)
+    return g
+
+
 @pytest.fixture
 def g_pop():
     """Create a populated instance of the graph."""
@@ -111,3 +137,9 @@ def test_neighbors(g_pop):
 def test_adjacent(g_pop):
     """Test that adjacent nodes are found."""
     assert g_pop.adjacent('17', 5)
+
+
+@pytest.mark.parametrize('start, answer', TEST)
+def test_breadth_first(g_trav, start, answer):
+    """Test breadth."""
+    assert g_trav.breadth_first_traversal(start) == answer

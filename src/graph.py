@@ -67,3 +67,18 @@ class Graph(object):
             return False
         except KeyError:
             raise KeyError('No node exists.')
+
+    def depth_first_traversal(self, start):
+        pass
+
+    def breadth_first_traversal(self, start):
+        """Return a list of nodes based on breadth first traversal."""
+        depth = []
+        travel = [start]
+        while travel:
+            edge = travel[0]
+            travel.remove(edge)
+            if edge not in depth:
+                depth.append(edge)
+                travel.extend(self.g[edge])
+        return depth
