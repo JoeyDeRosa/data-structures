@@ -19,7 +19,7 @@ def g_pop():
 
 
 TEST_LIST = ['17', 'yo', 5]
-EDGE_LIST = [('17', 'yo'), ('17', 5), ('yo', '17'), ('yo', 5), (5, '17'), (5, 'yo')]
+EDGE_LIST = [('17', 'yo'), ('yo', 5), (5, '17')]
 
 
 @pytest.fixture
@@ -31,7 +31,7 @@ def g():
 
 
 def test_init(g):
-    """Test that the graph was created"""
+    """Test that the graph was created."""
     assert g.g == {}
 
 
@@ -88,21 +88,26 @@ def test_del_node(g_pop):
 
 def test_del_edge(g_pop):
     """Test that the edge is deleted."""
-    tst = EDGE_LIST
-    tst.remove((5, 'yo'))
-    tst.remove(('yo', 5))
-    g_pop.del_edge(5, 'yo')
-    assert (5, 'yo') not in tst and ('yo', 5) not in tst
+    g_pop.del_edge(5, '17')
+    assert (5, '17') not in g_pop.edges()
 
 
 def test_has_node(g_pop):
     """Test that the node is in the list."""
-    tst = TEST_LIST
-    tst += ['in']
     g_pop.add_node('in')
-    assert 'in' in tst
+    assert 'in' in g_pop.nodes()
 
 
-def test_neighbor(g_pop):
+def test_neighbors(g_pop):
     """Test that the value is correct for the key."""
-    
+    tst = ['17']
+    ret = True
+    for i in tst:
+        if i not in g_pop.neighbors(5):
+            ret = False
+    assert ret
+
+
+def test_adjacent(g_pop):
+    """Test that adjacent nodes are found."""
+    assert g_pop.adjacent('17', 5)

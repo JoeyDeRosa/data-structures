@@ -19,22 +19,20 @@ class Graph(object):
         """Return a list of all the edges in the graph."""
         edges = []
         for key in self.g:
-            for edge in self.g.key:
+            for edge in self.g[key]:
                 edges += [(key, edge)]
         return edges
 
     def add_node(self, n):
         """Add a node to the graph."""
-        self.g[n] = []
+        self.g.setdefault(n, [])
 
     def add_edge(self, n1, n2):
         """Add an edge between two nodes."""
         try:
             self.g[n1] += [n2]
-            self.g[n2] += [n1]
         except KeyError:
-            self.g[n1] = [n2]
-            self.g[n2] = [n1]
+                self.g[n1] = [n2]
 
     def del_node(self, n):
         """Delete a node from the graph."""
@@ -47,15 +45,12 @@ class Graph(object):
         """Delete the edge between two nodes."""
         try:
             self.g[n1].remove(n2)
-            self.g[n2].remove(n1)
         except ValueError:
             raise ValueError('Edge does not exist.')
 
     def has_node(self, n):
         """Find a specific node in the graph."""
-        if n in self.g:
-            return True
-        return False
+        return n in self.g
 
     def neighbors(self, n):
         """Return all the edges for n."""
