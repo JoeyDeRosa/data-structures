@@ -82,3 +82,9 @@ class Graph(object):
                 depth.append(edge)
                 travel.extend(self.g[edge])
         return depth
+
+
+if __main__ == '__name__':
+    import timeit
+    print('depth first time: ', timeit.timeit(stmt='', setup=''))
+    print('breadth first time: ', timeit.timeit(stmt='', setup=''))
