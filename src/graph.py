@@ -69,31 +69,31 @@ class Graph(object):
             raise KeyError('No node exists.')
 
     def depth_first_traversal(self, start):
-        depth = set()
+        """Return a list of nodes based on depth first traversal."""
         travel = [start]
-        return_list = []
+        depth_list = []
+        depth = set()
         while travel:
             edge = travel.pop()
             if edge not in depth:
-                depth.add(edge)
                 travel.extend(self.g[edge][::-1])
-                return_list.append(edge)
-        return return_list
+                depth_list.append(edge)
+                depth.add(edge)
+        return depth_list
 
     def breadth_first_traversal(self, start):
         """Return a list of nodes based on breadth first traversal."""
-        depth = []
         travel = [start]
+        depth = []
         while travel:
-            edge = travel[0]
-            travel.remove(edge)
+            edge = travel.pop(0)
             if edge not in depth:
-                depth.append(edge)
                 travel.extend(self.g[edge])
+                depth.append(edge)
         return depth
 
 
-if __main__ == '__name__':
+if __name__ == '__main__':
     import timeit
-    print('depth first time: ', timeit.timeit(stmt='', setup=''))
-    print('breadth first time: ', timeit.timeit(stmt='', setup=''))
+    print('depth first time: ', timeit.timeit(stmt='g.depth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=100))
+    print('breadth first time: ', timeit.timeit(stmt='g.breadth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=100))
