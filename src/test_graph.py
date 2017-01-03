@@ -52,7 +52,7 @@ def g_pop():
 
 
 TEST_LIST = ['17', 'yo', 5]
-EDGE_LIST = [('17', 'yo'), ('yo', 5), (5, '17')]
+EDGE_LIST = [('17', ('yo', 1)), ('yo', (5, 6)), (5, ('17', 6))]
 
 
 @pytest.fixture
@@ -77,7 +77,7 @@ def test_nodes_populated(g_pop):
     """Test that nodes returns a list of keys from the populated dict."""
     ret = True
     for i in TEST_LIST:
-        if i not in TEST_LIST:
+        if i not in g_pop.nodes():
             ret = False
     assert ret
 
@@ -86,7 +86,7 @@ def test_edge(g_pop):
     """Test that edges are made correctly."""
     ret = True
     for i in EDGE_LIST:
-        if i not in EDGE_LIST:
+        if i not in g_pop.edges():
             ret = False
     assert ret
 
@@ -106,7 +106,7 @@ def test_add_edge(g_pop):
     tst += [(0, 'py'), ('py', 0)]
     ret = True
     for i in EDGE_LIST:
-        if i not in EDGE_LIST:
+        if i not in tst:
             ret = False
     assert ret
 
