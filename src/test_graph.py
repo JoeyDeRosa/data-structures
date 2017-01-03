@@ -11,6 +11,9 @@ TEST = [
     [7, [7, 1, 2, 3, 4, 5, 6]]
 ]
 
+TEST_DEPTH = [
+    [1, [1, 2, 5, 6, 3, 7, 4]],
+]
 
 @pytest.fixture
 def g_trav():
@@ -137,6 +140,12 @@ def test_neighbors(g_pop):
 def test_adjacent(g_pop):
     """Test that adjacent nodes are found."""
     assert g_pop.adjacent('17', 5)
+
+
+@pytest.mark.parametrize('start, answer', TEST_DEPTH)
+def test_depth_first_traversal(g_trav, start, answer):
+    """testing test depth."""
+    assert g_trav.depth_first_traversal(start) == answer
 
 
 @pytest.mark.parametrize('start, answer', TEST)
