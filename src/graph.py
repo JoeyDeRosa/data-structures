@@ -29,11 +29,15 @@ class Graph(object):
 
     def add_edge(self, n1, n2):
         """Add an edge between two nodes."""
-        weight = 1
+        weight = 0
         if type(n1) is int or type(n1) is float:
             weight += n1
+        else:
+            weight += 1
         if type(n2) is int or type(n2) is float:
             weight += n2
+        else:
+            weight += 1
         try:
             self.g[n1] += [(n2, weight)]
         except KeyError:
