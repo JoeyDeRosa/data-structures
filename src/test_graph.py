@@ -18,6 +18,8 @@ TEST_DEPTH = [
     [7, [7, 1, 2, 5, 6, 3, 4]],
 ]
 
+TEST_WEIGHT = [3, 4, 5, 7, 8, 10, 9, 8]
+
 
 @pytest.fixture
 def g_trav():
@@ -52,7 +54,7 @@ def g_pop():
 
 
 TEST_LIST = ['17', 'yo', 5]
-EDGE_LIST = [('17', ('yo', 1)), ('yo', (5, 6)), (5, ('17', 6))]
+EDGE_LIST = [('17', ('yo', 2)), ('yo', (5, 6)), (5, ('17', 6))]
 
 
 @pytest.fixture
@@ -144,6 +146,11 @@ def test_neighbors(g_pop):
 def test_adjacent(g_pop):
     """Test that adjacent nodes are found."""
     assert g_pop.adjacent('17', 5)
+
+def test_all_edges(g_trav):
+    """test all edges."""
+    for edges in g_trav.edges():
+        assert edges[1][1] in TEST_WEIGHT
 
 
 @pytest.mark.parametrize('start, answer', TEST_DEPTH)
