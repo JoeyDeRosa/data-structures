@@ -25,6 +25,8 @@ class Graph(object):
 
     def add_node(self, n):
         """Add a node to the graph."""
+        if n in self.g.nodes():
+            raise ValueError('Node already in graph.')
         self.g.setdefault(n, [])
 
     def add_edge(self, n1, n2):
