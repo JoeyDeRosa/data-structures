@@ -15,7 +15,7 @@ class Graph(object):
             nodes += [key]
         return nodes
 
-    def edges(self):
+    def edges(self, start=None):
         """Return a list of all the edges in the graph."""
         edges = []
         for key in self.g:
@@ -25,21 +25,12 @@ class Graph(object):
 
     def add_node(self, n):
         """Add a node to the graph."""
-        if n in self.g.nodes():
+        if n in self.nodes():
             raise ValueError('Node already in graph.')
         self.g.setdefault(n, [])
 
-    def add_edge(self, n1, n2):
+    def add_edge(self, n1, n2, weight=1):
         """Add an edge between two nodes."""
-        weight = 0
-        if type(n1) is int or type(n1) is float:
-            weight += n1
-        else:
-            weight += 1
-        if type(n2) is int or type(n2) is float:
-            weight += n2
-        else:
-            weight += 1
         try:
             self.g[n1] += [(n2, weight)]
         except KeyError:
@@ -116,6 +107,56 @@ class Graph(object):
                 travel.extend(self.g[edge])
                 depth.append(edge)
         return depth
+
+    def dijkstra(self, start, finish):
+        """Dijkstra shortest path algorithm."""
+        if self._path(start, finish):
+            visited = {start: 0}
+            path = {}
+            nodes = set(self.breadth_first_traversal(start))
+            while nodes:
+                min_node = None
+                for node in nodes:
+                    if node in visited:
+                        if min_node is None:
+                            min_node = node
+                        elif visited[node] < visited[min_node]:
+                            min_node = node
+                    if min_node is None:
+                        break
+                nodes.remove(min_node)
+                curr_distance = visited[min_node]
+                for edge in self._edges_for_node(min_node):
+                    distance = curr_distance + edge[1][1]
+                    # print(distance, ' = ', curr_distance, ' + ', edge[1][1])
+                    if edge[1][0] not in visited or distance < visited[edge[1][0]]:
+                        visited[edge[1][0]] = distance
+                        path[edge[1][0]] = min_node
+            return self._return_path(path, start, finish)
+        raise ValueError('No such path.')
+
+    def _path(self, n1, n2):
+        """If there a path from n1 to n2 return True."""
+        path = self.breadth_first_traversal(n1)
+        if n2 in path:
+            return True
+        return False
+
+    def _edges_for_node(self, n1):
+        edges = []
+        for edge in self.edges():
+            if edge[0] is n1:
+                edges += [edge]
+        return edges
+
+    def _return_path(self, path, start, finish):
+        """Turn the path list into a compleate path."""
+        node = finish
+        full_path = []
+        while node is not start:
+            full_path += [node]
+            node = path[node]
+        return [start] + full_path[::-1]
 
 
 if __name__ == '__main__':

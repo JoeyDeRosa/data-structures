@@ -22,20 +22,40 @@ TEST_WEIGHT = [3, 4, 5, 7, 8, 10, 9, 8]
 
 
 @pytest.fixture
+def g_close():
+    """Test graph for shortest path."""
+    from graph import Graph
+    g = Graph()
+    for i in range(6):
+        g.add_node(i + 1)
+    g.add_edge(1, 2, 4)
+    g.add_edge(1, 3, 1)
+    g.add_edge(2, 4, 10)
+    g.add_edge(2, 5, 5)
+    g.add_edge(3, 5, 7)
+    g.add_edge(3, 6, 12)
+    g.add_edge(4, 5, 4)
+    g.add_edge(6, 5, 3)
+    g.add_edge(5, 6, 3)
+    g.add_edge(5, 4, 4)
+    return(g)
+
+
+@pytest.fixture
 def g_trav():
     """A more complex graph."""
     from graph import Graph
     g = Graph()
     for i in range(7):
         g.add_node(i + 1)
-    g.add_edge(1, 2)
-    g.add_edge(1, 3)
-    g.add_edge(1, 4)
-    g.add_edge(2, 5)
-    g.add_edge(2, 6)
-    g.add_edge(6, 3)
-    g.add_edge(3, 7)
-    g.add_edge(7, 1)
+    g.add_edge(1, 2, 3)
+    g.add_edge(1, 3, 4)
+    g.add_edge(1, 4, 5)
+    g.add_edge(2, 5, 7)
+    g.add_edge(2, 6, 8)
+    g.add_edge(6, 3, 9)
+    g.add_edge(3, 7, 10)
+    g.add_edge(7, 1, 8)
     return g
 
 
@@ -47,9 +67,9 @@ def g_pop():
     new_g.add_node('17')
     new_g.add_node('yo')
     new_g.add_node(5)
-    new_g.add_edge('17', 'yo')
-    new_g.add_edge('yo', 5)
-    new_g.add_edge(5, '17')
+    new_g.add_edge('17', 'yo', 2)
+    new_g.add_edge('yo', 5, 6)
+    new_g.add_edge(5, '17', 6)
     return new_g
 
 
@@ -147,8 +167,9 @@ def test_adjacent(g_pop):
     """Test that adjacent nodes are found."""
     assert g_pop.adjacent('17', 5)
 
-def test_all_edges(g_trav):
-    """test all edges."""
+
+def test_all_edges_weight(g_trav):
+    """Test all edges weight."""
     for edges in g_trav.edges():
         assert edges[1][1] in TEST_WEIGHT
 
@@ -163,3 +184,8 @@ def test_depth_first_traversal(g_trav, start, answer):
 def test_breadth_first(g_trav, start, answer):
     """Test breadth."""
     assert g_trav.breadth_first_traversal(start) == answer
+
+
+def test_dijkstra(g_close):
+    """Test dijksta."""
+    assert g_close.dijkstra(1, 5) == [1, 3, 5]
