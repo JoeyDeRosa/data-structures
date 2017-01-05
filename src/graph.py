@@ -15,7 +15,7 @@ class Graph(object):
             nodes += [key]
         return nodes
 
-    def edges(self):
+    def edges(self, start=None):
         """Return a list of all the edges in the graph."""
         edges = []
         for key in self.g:
@@ -25,6 +25,8 @@ class Graph(object):
 
     def add_node(self, n):
         """Add a node to the graph."""
+        if n in self.nodes():
+            raise ValueError('Node already in graph.')
         self.g.setdefault(n, [])
 
     def add_edge(self, n1, n2, weight=1):
@@ -107,44 +109,86 @@ class Graph(object):
         return depth
 
     def distance_graph(self, start, stop):
-        V = 4
+        """looking for the distance."""
+        v = 4
         INF = 99999
-        for i in range(V):
-            for j in range(V):
-                if(dist[i][j] == INF):
+        for i in range(v):
+            for j in range(v):
+                if(stop[i][j] == INF):
                     print "%7s" %("INF"),
                 else:
-                    print "%7d\t" %(dist[i][j]),
-                if j == V-1:
+                    print "%7d\t" %(stop[i][j]),
+                if j == v-1:
                     print ""
 
-    def floyd_warshall(self, n, , ):
-        """Floyd Warshall formula."""
-        V = 4
+graph = [[0, 5, INF, 10],
+         [INF, 0, 3, INF],
+         [INF, INF, 0, 1],
+         [INF, INF, INF, 0]]
 
-        dist = map(lambda i : map(lambda j : j , i) , graph)
-        for k in range(V):
-            for i in range(V):
-                for j in range(V):
-                    dist[i][j] = min(dist[i][j], dist[i][k]+ dist[k][j]
-)
+    def warshall(self, start, finish):
+        """Floyd Warshall formula."""
+        v = 4
+        dist = map(lambda i: map(lambda j: j, i), self)
+        for k in range(v):
+                for i in range(v):
+                    for j in range(v):
+                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+
+    def dijkstra(self, start, finish):
+        """Dijkstra shortest path algorithm."""
+        if self._path(start, finish):
+            visited = {start: 0}
+            path = {}
+            nodes = set(self.breadth_first_traversal(start))
+            while nodes:
+                min_node = None
+                for node in nodes:
+                    if node in visited:
+                        if min_node is None:
+                            min_node = node
+                        elif visited[node] < visited[min_node]:
+                            min_node = node
+                    if min_node is None:
+                        break
+                nodes.remove(min_node)
+                curr_distance = visited[min_node]
+                for edge in self._edges_for_node(min_node):
+                    distance = curr_distance + edge[1][1]
+                    # print(distance, ' = ', curr_distance, ' + ', edge[1][1])
+                    if edge[1][0] not in visited or distance < visited[edge[1][0]]:
+                        visited[edge[1][0]] = distance
+                        path[edge[1][0]] = min_node
+            return self._return_path(path, start, finish)
+        raise ValueError('No such path.')
+
+    def _path(self, n1, n2):
+        """If there a path from n1 to n2 return True."""
+        path = self.breadth_first_traversal(n1)
+        if n2 in path:
+            return True
+        return False
+
+    def _edges_for_node(self, n1):
+        edges = []
+        for edge in self.edges():
+            if edge[0] is n1:
+                edges += [edge]
+        return edges
+
+    def _return_path(self, path, start, finish):
+        """Turn the path list into a compleate path."""
+        node = finish
+        full_path = []
+        while node is not start:
+            full_path += [node]
+            node = path[node]
+        return [start] + full_path[::-1]
+
 
 if __name__ == '__main__':
 
-        graph = {'A':{'A':0,'B':6,'C':INF,'D':6,'E':7},
-
-                 'B':{'A':INF,'B':0,'C':5,'D':INF,'E':INF},
-
-                 'C':{'A':INF,'B':INF,'C':0,'D':9,'E':3},
-
-                 'D':{'A':INF,'B':INF,'C':9,'D':0,'E':7},
-
-                 'E':{'A':INF,'B':4,'C':INF,'D':INF,'E':0}
-
-                 }
-
-    floydWarshall(graph)
-
     import timeit
-    print('depth first time: ', timeit.timeit(stmt='g.depth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
-    print('breadth first time: ', timeit.timeit(stmt='g.breadth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
+
+print('depth first time: ', timeit.timeit(stmt='g.depth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
+print('breadth first time: ', timeit.timeit(stmt='g.breadth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
