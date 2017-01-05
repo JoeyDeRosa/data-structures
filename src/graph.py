@@ -27,17 +27,8 @@ class Graph(object):
         """Add a node to the graph."""
         self.g.setdefault(n, [])
 
-    def add_edge(self, n1, n2):
+    def add_edge(self, n1, n2, weight=1):
         """Add an edge between two nodes."""
-        weight = 0
-        if type(n1) is int or type(n1) is float:
-            weight += n1
-        else:
-            weight += 1
-        if type(n2) is int or type(n2) is float:
-            weight += n2
-        else:
-            weight += 1
         try:
             self.g[n1] += [(n2, weight)]
         except KeyError:
@@ -115,8 +106,45 @@ class Graph(object):
                 depth.append(edge)
         return depth
 
+    def distance_graph(self, start, stop):
+        V = 4
+        INF = 99999
+        for i in range(V):
+            for j in range(V):
+                if(dist[i][j] == INF):
+                    print "%7s" %("INF"),
+                else:
+                    print "%7d\t" %(dist[i][j]),
+                if j == V-1:
+                    print ""
+
+    def floyd_warshall(self, n, , ):
+        """Floyd Warshall formula."""
+        V = 4
+
+        dist = map(lambda i : map(lambda j : j , i) , graph)
+        for k in range(V):
+            for i in range(V):
+                for j in range(V):
+                    dist[i][j] = min(dist[i][j], dist[i][k]+ dist[k][j]
+)
 
 if __name__ == '__main__':
+
+        graph = {'A':{'A':0,'B':6,'C':INF,'D':6,'E':7},
+
+                 'B':{'A':INF,'B':0,'C':5,'D':INF,'E':INF},
+
+                 'C':{'A':INF,'B':INF,'C':0,'D':9,'E':3},
+
+                 'D':{'A':INF,'B':INF,'C':9,'D':0,'E':7},
+
+                 'E':{'A':INF,'B':4,'C':INF,'D':INF,'E':0}
+
+                 }
+
+    floydWarshall(graph)
+
     import timeit
     print('depth first time: ', timeit.timeit(stmt='g.depth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
     print('breadth first time: ', timeit.timeit(stmt='g.breadth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
