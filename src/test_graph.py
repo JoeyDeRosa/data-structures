@@ -18,6 +18,15 @@ TEST_DEPTH = [
     [7, [7, 1, 2, 5, 6, 3, 4]],
 ]
 
+
+TEST_PATHS = [
+    [1, 5, [1, 3, 5]],
+    [1, 4, [1, 3, 5, 4]],
+    [1, 6, [1, 3, 5, 6]],
+    [2, 5, [2, 5]],
+]
+
+
 TEST_WEIGHT = [3, 4, 5, 7, 8, 10, 9, 8]
 
 
@@ -158,6 +167,7 @@ def test_neighbors(g_pop):
     tst = ['17']
     ret = True
     for i in tst:
+        print(g_pop.neighbors(5))
         if i not in g_pop.neighbors(5):
             ret = False
     assert ret
@@ -186,6 +196,13 @@ def test_breadth_first(g_trav, start, answer):
     assert g_trav.breadth_first_traversal(start) == answer
 
 
-def test_dijkstra(g_close):
+@pytest.mark.parametrize('start, stop, answer', TEST_PATHS)
+def test_dijkstra(g_close, start, stop, answer):
     """Test dijksta."""
-    assert g_close.dijkstra(1, 5) == [1, 3, 5]
+    assert g_close.dijkstra(start, stop) == answer
+
+
+@pytest.mark.parametrize('start, stop, answer', TEST_PATHS)
+def test_warshall(g_close, start, stop, answer):
+    """Test warshall."""
+    assert g_close.warshall(start, stop) == answer

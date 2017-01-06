@@ -108,32 +108,32 @@ class Graph(object):
                 depth.append(edge)
         return depth
 
-    def distance_graph(self, start, stop):
-        """looking for the distance."""
-        v = 4
-        INF = 99999
-        for i in range(v):
-            for j in range(v):
-                if(stop[i][j] == INF):
-                    print "%7s" %("INF"),
-                else:
-                    print "%7d\t" %(stop[i][j]),
-                if j == v-1:
-                    print ""
-
-graph = [[0, 5, INF, 10],
-         [INF, 0, 3, INF],
-         [INF, INF, 0, 1],
-         [INF, INF, INF, 0]]
-
     def warshall(self, start, finish):
         """Floyd Warshall formula."""
-        v = 4
-        dist = map(lambda i: map(lambda j: j, i), self)
-        for k in range(v):
-                for i in range(v):
-                    for j in range(v):
-                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+        if self._path(start, finish):
+            distance = {}
+            path = {}
+            graph = self.g
+            for node in graph:
+                distance[node] = {}
+                path[node] = {}
+                for visit in graph:
+                    distance[node][visit] = 1000
+                    path[node][visit] = -1
+                distance[node][node] = 0
+                for edge in range(len(graph[node])):
+                    key_edge = graph[node][edge][0]
+                    distance[node][key_edge] = graph[node][edge][1]
+                    path[node][key_edge] = node
+            for second_node in graph:
+                for node in graph:
+                    for visit in graph:
+                        new_distance = distance[node][second_node] + distance[second_node][visit]
+                        if new_distance < distance[node][visit]:
+                            distance[node][visit] = new_distance
+                            path[node][visit] = path[second_node][visit]
+            return self._return_path_warthal(path, start, finish)
+        raise KeyError('No such path.')
 
     def dijkstra(self, start, finish):
         """Dijkstra shortest path algorithm."""
@@ -155,7 +155,6 @@ graph = [[0, 5, INF, 10],
                 curr_distance = visited[min_node]
                 for edge in self._edges_for_node(min_node):
                     distance = curr_distance + edge[1][1]
-                    # print(distance, ' = ', curr_distance, ' + ', edge[1][1])
                     if edge[1][0] not in visited or distance < visited[edge[1][0]]:
                         visited[edge[1][0]] = distance
                         path[edge[1][0]] = min_node
@@ -185,10 +184,17 @@ graph = [[0, 5, INF, 10],
             node = path[node]
         return [start] + full_path[::-1]
 
+    def _return_path_warthal(self, path, start, finish):
+        """Turn warthal path into list."""
+        full_path = []
+        next_node = path[start][finish]
+        while next_node is not start:
+            full_path += [next_node]
+            next_node = path[start][next_node]
+        return [start] + full_path[::-1] + [finish]
+
 
 if __name__ == '__main__':
-
     import timeit
-
-print('depth first time: ', timeit.timeit(stmt='g.depth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
-print('breadth first time: ', timeit.timeit(stmt='g.breadth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
+    print('depth first time: ', timeit.timeit(stmt='g.depth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
+    print('breadth first time: ', timeit.timeit(stmt='g.breadth_first_traversal(1)', setup='from test_graph import g_trav; g = g_trav()', number=10000))
